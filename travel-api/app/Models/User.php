@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'lastname',
         'email',
         'password',
     ];
@@ -41,4 +42,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $visible = ['name', 'lastname', 'email', 'password'];
+
+
+    public function scopeFindByEmail($query, $email){
+        return $query->where('email', $email);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/**when u access to /api in the web browser */
+Route::get('/', function(){
+    return 'Welcome to travel-api';
+});
+
+Route::post('/register', [LoginController::class, 'register'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::group(['prefix' => '/user'], function(){
+        Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
+        Route::patch('/{id}', [UserController::class, 'show'])->name('user.update');
+        Route::delete('/{id}', [UserController::class, 'show'])->name('user.destroy');
+    });
+
 });

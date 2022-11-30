@@ -26,11 +26,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::group(['prefix' => '/user'], function(){
-        Route::get('/', [UserController::class, 'index'])->name('user.index');
-        Route::get('/{id}', [UserController::class, 'show'])->name('user.show');
-        Route::patch('/{id}', [UserController::class, 'show'])->name('user.update');
-        Route::delete('/{id}', [UserController::class, 'show'])->name('user.destroy');
+    Route::controller(UserController::class)->prefix('user')->group(function(){
+        Route::get('/', 'index')->name('user.index');
+        Route::get('/{id}', 'show')->name('user.show');
+        Route::patch('/{id}', 'show')->name('user.update');
+        Route::delete('/{id}', 'show')->name('user.destroy');
     });
 
 });
